@@ -136,7 +136,7 @@
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[concat(variables('adlsStorageAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/', variables('guid') )]",
+      "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataContributorRoleID'), '/', variables('workspaceName'), '2'))]",
       "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
