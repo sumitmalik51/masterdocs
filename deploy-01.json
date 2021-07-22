@@ -178,7 +178,7 @@
       {
       "type": "String",
       "value": "[variables('defaultDataLakeStorageFilesystemName')]"
-      }
+      },
     "Azure Active Directory ID": {
       "type": "String",
       "value": "[variables('tenantId')]"
