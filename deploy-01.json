@@ -9,7 +9,7 @@
   "variables": {
     "uniquesuffix": "[uniqueString(resourceGroup().id)]",
     "location": "[resourceGroup().location]",
-    "tenantId": "[subscription().tenantId]"
+    "tenantId": "[subscription().tenantId]",
     "sqlAdministratorLogin": "sqladmin",
     "sqlAdministratorLoginPassword": "password.1!!",
     "workspaceName": "[concat('testdrive-synapse', parameters('deploymentId'))]",
@@ -136,7 +136,7 @@
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', variables('workspaceName'), '2'))]",
+      "name": "[concat(variables('adlsStorageAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/', variables('guid') )]",
       "location": "[variables('location')]",
       "dependsOn": [
         "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
