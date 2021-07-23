@@ -1,0 +1,19 @@
+{
+  "Name": "Spektra Custom RBAC- DP203M17",
+  "Id": null,
+  "IsCustom": true,
+  "Description": "Spektra Training Custom Role.",
+  "Actions": [
+    "microsoft.alertsmanagement/smartDetectorAlertRules/*",
+    "Microsoft.Authorization/roleAssignments/write",
+    "Microsoft.Authorization/*/read",
+    "Microsoft.Resources/deployments/*",
+    "Microsoft.Resources/subscriptions/resourceGroups/read",
+    "Microsoft.Storage/storageAccounts/*",
+    "Microsoft.Synapse/workspaces/*",
+    "Microsoft.Synapse/workspaces/sqlPools/*"
+  ],
+  "NotActions": [
+
+  ]
+}
