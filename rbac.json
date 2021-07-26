@@ -12,7 +12,7 @@
     "Microsoft.Resources/subscriptions/resourceGroups/read",
     "Microsoft.Storage/storageAccounts/*",
     "Microsoft.Synapse/workspaces/*",
-    "Microsoft.Storage/storageAccounts/blobServices/containers/*"
+    "Microsoft.Storage/storageAccounts/blobServices/containers/*",
     "Microsoft.Synapse/workspaces/sqlPools/*"
   ],
   "NotActions": [
