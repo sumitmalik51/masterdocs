@@ -8,6 +8,7 @@
     "Microsoft.Authorization/roleAssignments/write",
     "Microsoft.Authorization/*/read",
     "Microsoft.Resources/deployments/*",
+    "Microsoft.Storage/storageAccounts/listKeys/action",
     "Microsoft.Resources/subscriptions/resourceGroups/read",
     "Microsoft.Storage/storageAccounts/*",
     "Microsoft.Synapse/workspaces/*",
