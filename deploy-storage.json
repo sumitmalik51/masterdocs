@@ -1,0 +1,107 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "deploymentId": {
+      "type": "String"
+    }
+  },
+  "variables": {
+    "uniquesuffix": "[uniqueString(resourceGroup().id)]",
+    "location": "[resourceGroup().location]",
+    "tenantId": "[subscription().tenantId]",
+    "sqlAdministratorLogin": "sqladminuser",
+    "sqlAdministratorLoginPassword": "password.1!!",
+    "workspaceName": "[concat('testdrive-synapse', parameters('deploymentId'))]",
+    "adlsStorageAccountName": "[concat('testdriveadlsgen2', parameters('deploymentId'))]",
+    "defaultDataLakeStorageFilesystemName": "testdrive",
+    "sqlComputeName": "[concat('testdrive')]",
+    "sparkComputeName": "[concat('testdrive')]",
+    "computeSubnetId": "",
+    "guid": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataContributorRoleID'), '/', variables('workspaceName')))]",
+    "sqlServerSKU": "DW200c",
+    "storageBlobDataContributorRoleID": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
+    "defaultDataLakeStorageAccountUrl": "[concat('https://', variables('adlsStorageAccountName'), '.dfs.core.windows.net')]",
+    "sparkAutoScaleEnabled": "false",
+    "sparkMinNodeCount": "3",
+    "sparkMaxNodeCount": "6",
+    "sparkNodeCount": "3",
+    "sparkNodeSizeFamily": "MemoryOptimized",
+    "sparkNodeSize": "Small",
+    "sparkAutoPauseEnabled": "true",
+    "sparkAutoPauseDelayInMinutes": "5",
+    "sparkVersion": "2.4",
+    "packagesRequirementsFileName": "",
+    "packagesRequirementsContent": "",
+    "dbworkspaceName": "[parameters('deploymentId')]",
+    "resourceNamePrefix": "Synapse-AIAD",
+    "pricingTier": "Standard",
+    "managedResourceGroupId": "[concat(subscription().id, '/resourceGroups/', variables('managedResourceGroupName'))]",
+    "managedResourceGroupName": "[concat('databricks-rg-', variables('resourceNamePrefix'), '-', parameters('deploymentId'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "name": "pid-e843308b-3ce2-42a2-b743-2f21b36a5e68",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "name": "[variables('adlsStorageAccountName')]",
+      "location": "[variables('location')]",
+      "dependsOn": [],
+      "tags": {},
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "supportsHttpsTrafficOnly": "true",
+        "isHnsEnabled": "true",
+        "largeFileSharesState": "Disabled"
+      },
+      "resources": [
+        {
+          "type": "blobServices/containers",
+          "apiVersion": "2018-07-01",
+          "name": "[concat('default/', variables('defaultDataLakeStorageFilesystemName'))]",
+          "dependsOn": [
+            "[concat('Microsoft.Storage/storageAccounts/', variables('adlsStorageAccountName'))]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[concat(variables('adlsStorageAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/', variables('guid') )]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataContributorRoleID'))]",
+        "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', variables('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+        "principalType": "ServicePrincipal"
+      }
+    }
+    
+  ],
+  "outputs": {
+    "Access key": {
+      "type": "String",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('adlsStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+    }
+
+  }
+}
