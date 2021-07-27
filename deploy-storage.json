@@ -11,13 +11,7 @@
     "location": "[resourceGroup().location]",
     "tenantId": "[subscription().tenantId]",
     "adlsStorageAccountName": "[concat('testdriveadlsgen2', parameters('deploymentId'))]",
-    "defaultDataLakeStorageFilesystemName": "testdrive",
-    "computeSubnetId": "",
-    "guid": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataContributorRoleID'), '/', variables('workspaceName')))]",
-    "sqlServerSKU": "DW200c",
-    "storageBlobDataContributorRoleID": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
-    "defaultDataLakeStorageAccountUrl": "[concat('https://', variables('adlsStorageAccountName'), '.dfs.core.windows.net')]",
-    "pricingTier": "Standard"
+    "defaultDataLakeStorageFilesystemName": "testdrive"
   },
   "resources": [
     {
