@@ -80,20 +80,6 @@
           ]
         }
       ]
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
-      "name": "[concat(variables('adlsStorageAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/', variables('guid') )]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
-      ],
-      "properties": {
-        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataContributorRoleID'))]",
-        "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', variables('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
-        "principalType": "ServicePrincipal"
-      }
     }
     
   ],
