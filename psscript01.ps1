@@ -15,7 +15,7 @@ Param (
     [string]
     $azuserobjectid,
     [string]
-    $InstallCloudLabsShadow,
+    $InstallCloudLabsShadow
 
 )
 
