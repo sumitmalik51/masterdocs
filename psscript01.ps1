@@ -60,6 +60,10 @@ $WebClient = New-Object System.Net.WebClient
 $WebClient.DownloadFile("https://experienceazure.blob.core.windows.net/templates/innovate-and-modernize-apps-with-data-and-ai/scripts/logontask.ps1","C:\Packages\logontask.ps1")
 
 
+
+$securePassword = $AzurePassword | ConvertTo-SecureString -AsPlainText -Force
+$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $AzureUsername, $securePassword
+
 function InstallAzPowerShellModule
 {
   Install-PackageProvider NuGet -Force
@@ -71,12 +75,16 @@ InstallAzPowerShellModule
 #Install synapse modules
 Install-PackageProvider NuGet -Force
 
+
+
+
 sleep 5
 
 #installing extensions to vscode
 code --install-extension ms-dotnettools.csharp 
 code --install-extension vsciot-vscode.azure-iot-tools
 code --install-extension ms-azuretools.vscode-azurefunctions
+choco install vscode-gitignore
 
 #Enable Autologon
 $AutoLogonRegPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
@@ -90,6 +98,6 @@ $User= "$($env:ComputerName)\demouser"
 $Action= New-ScheduledTaskAction -Execute "C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe" -Argument "-executionPolicy Unrestricted -File C:\Packages\logontask.ps1"
 Register-ScheduledTask -TaskName "vscode-extensions" -Trigger $Trigger -User $User -Action $Action -RunLevel Highest –Force
 
-
+Write-Host "Restarting-Computer" 
 Restart-Computer -Force 
 Stop-Transcript
